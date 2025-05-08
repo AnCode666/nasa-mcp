@@ -1,5 +1,7 @@
 [![en](https://img.shields.io/badge/lang-en-red.svg)](README.md)
 [![es](https://img.shields.io/badge/lang-es-yellow.svg)](README_es.md)
+[![smithery badge](https://smithery.ai/badge/@AnCode666/nasa-mcp)](https://smithery.ai/server/@AnCode666/nasa-mcp)
+
 
 # NASA-MCP. Integration via MCP with NASA APIs
 
@@ -21,6 +23,14 @@ It includes secure handling of API keys and proper error management for all API 
 - Query the **Exoplanet Archive** database for information about planets outside our solar system
 
 ## Installation
+
+### Installing via Smithery
+
+To install NASA API Integration Server for Claude Desktop automatically via [Smithery](https://smithery.ai/server/@AnCode666/nasa-mcp):
+
+```bash
+npx -y @smithery/cli install @AnCode666/nasa-mcp --client claude
+```
 
 ### Prerequisites
 
