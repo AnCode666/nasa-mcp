@@ -3,8 +3,6 @@
 
 # NASA-MCP. Integration via MCP with NASA APIs
 
-[![smithery badge](https://smithery.ai/badge/@AnCode666/nasa-mcp)](https://smithery.ai/server/@AnCode666/nasa-mcp)
-
 **NASA is the National Aeronautics and Space Administration of the United States.**
 
 **NASA-MCP** allows you to retrieve astronomical data, space weather information, Earth imagery, and more from NASA's APIs directly from Claude AI and other MCP compatible clients, using the **Model Context Protocol (MCP)**.
@@ -93,10 +91,18 @@ In general, to integrate it into any other MCP-compatible client such as Cursor,
 
 Once properly configured, you can ask things like:
 
-```
 - "Show me today's astronomy picture of the day"
 - "Find asteroids that will pass near Earth in the next week"
 - "Get information about solar flares from January 2023"
 - "Show me Earth imagery for coordinates 29.78, -95.33"
 - "Find exoplanets in the habitable zone"
-```
+
+## DISTRIBUTIONS
+
+### Smithery
+
+[![smithery badge](https://smithery.ai/badge/@AnCode666/nasa-mcp)](https://smithery.ai/server/@AnCode666/nasa-mcp)
+
+### MCP Review
+
+[MCP review certified](https://mcpreview.com/mcp-servers/ancode666/nasa-mcp)
