@@ -129,7 +129,7 @@ async def get_astronomy_picture_of_day(date: str = None, count: int = None, thum
                     result.append(f"Thumbnail URL: {item.get('thumbnail_url', 'Not available')}")
                 result.append("-" * 40)
             
-            return "n".join(result)
+            return "\n".join(result)
         else:
             # If it's a single image
             result = f"""
@@ -139,7 +139,7 @@ Explanation: {data.get('explanation', 'No explanation')}
 URL: {data.get('url', 'Not available')}
 """
             if 'copyright' in data:
-                result += f"Copyright: {data.get('copyright', 'Unknown')}n"
+                result += f"Copyright: {data.get('copyright', 'Unknown')}\n"
             if thumbs and 'thumbnail_url' in data:
                 result += f"Thumbnail URL: {data.get('thumbnail_url', 'Not available')}n"
             
@@ -185,11 +185,11 @@ async def get_asteroids_feed(start_date: str, end_date: str = None) -> str:
         result = [f"Total asteroids found: {element_count}"]
         
         for date_str, asteroids in near_earth_objects.items():
-            result.append(f"nDate: {date_str}")
+            result.append(f"\nDate: {date_str}")
             result.append(f"Number of asteroids: {len(asteroids)}")
             
             for asteroid in asteroids:
-                result.append(f"n  ID: {asteroid.get('id', 'Unknown')}")
+                result.append(f"\n  ID: {asteroid.get('id', 'Unknown')}")
                 result.append(f"  Name: {asteroid.get('name', 'Unknown')}")
                 result.append(f"  Estimated diameter (min): {asteroid.get('estimated_diameter', {}).get('kilometers', {}).get('estimated_diameter_min', 'Unknown')} km")
                 result.append(f"  Estimated diameter (max): {asteroid.get('estimated_diameter', {}).get('kilometers', {}).get('estimated_diameter_max', 'Unknown')} km")
@@ -203,7 +203,7 @@ async def get_asteroids_feed(start_date: str, end_date: str = None) -> str:
                     result.append(f"  Distance (km): {approach.get('miss_distance', {}).get('kilometers', 'Unknown')}")
                     result.append(f"  Relative velocity (km/h): {approach.get('relative_velocity', {}).get('kilometers_per_hour', 'Unknown')}")
         
-        return "n".join(result)
+        return "\n".join(result)
     except Exception as e:
         logger.error(f"Error processing Asteroids Feed data: {str(e)}")
         return f"Error processing asteroid data: {str(e)}"
@@ -234,38 +234,38 @@ async def get_asteroid_lookup(asteroid_id: str) -> str:
             f"Designation: {data.get('designation', 'Unknown')}",
             f"NASA JPL URL: {data.get('nasa_jpl_url', 'Not available')}",
             f"Absolute magnitude: {data.get('absolute_magnitude_h', 'Unknown')}",
-            f"nEstimated diameter:",
+            f"\nEstimated diameter:",
             f"  Minimum (km): {data.get('estimated_diameter', {}).get('kilometers', {}).get('estimated_diameter_min', 'Unknown')}",
             f"  Maximum (km): {data.get('estimated_diameter', {}).get('kilometers', {}).get('estimated_diameter_max', 'Unknown')}",
-            f"nPotentially hazardous: {'Yes' if data.get('is_potentially_hazardous_asteroid', False) else 'No'}",
+            f"\nPotentially hazardous: {'Yes' if data.get('is_potentially_hazardous_asteroid', False) else 'No'}",
             f"Sentry Object: {'Yes' if data.get('is_sentry_object', False) else 'No'}" # Corrected field name based on common API patterns
         ]
         
         # Approach information
         close_approaches = data.get('close_approach_data', [])
         if close_approaches:
-            result.append("nClose approaches:")
+            result.append("\nClose approaches:")
             for i, approach in enumerate(close_approaches[:5], 1):  # Limit to first 5 to avoid overload
-                result.append(f"n  Approach {i}:")
+                result.append(f"\n  Approach {i}:")
                 result.append(f"  Date: {approach.get('close_approach_date_full', 'Unknown')}")
                 result.append(f"  Orbiting body: {approach.get('orbiting_body', 'Unknown')}")
                 result.append(f"  Distance (km): {approach.get('miss_distance', {}).get('kilometers', 'Unknown')}")
                 result.append(f"  Relative velocity (km/h): {approach.get('relative_velocity', {}).get('kilometers_per_hour', 'Unknown')}")
             
             if len(close_approaches) > 5:
-                result.append(f"n  ... and {len(close_approaches) - 5} more approaches.")
+                result.append(f"\n  ... and {len(close_approaches) - 5} more approaches.")
         
         # Orbital data
         orbital_data = data.get('orbital_data', {})
         if orbital_data:
-            result.append("nOrbital data:")
+            result.append("\nOrbital data:")
             result.append(f"  Orbit determination date: {orbital_data.get('orbit_determination_date', 'Unknown')}") # Corrected field name
             result.append(f"  Semi-major axis: {orbital_data.get('semi_major_axis', 'Unknown')} AU")
             result.append(f"  Eccentricity: {orbital_data.get('eccentricity', 'Unknown')}")
             result.append(f"  Inclination: {orbital_data.get('inclination', 'Unknown')} degrees")
             result.append(f"  Orbital period: {orbital_data.get('orbital_period', 'Unknown')} days")
         
-        return "n".join(result)
+        return "\n".join(result)
     except Exception as e:
         logger.error(f"Error processing Asteroid Lookup data: {str(e)}")
         return f"Error processing asteroid data: {str(e)}"
@@ -297,7 +297,7 @@ async def browse_asteroids() -> str:
         count = 0
         for asteroid in near_earth_objects:
             if count >= display_limit:
-                result.append(f"n... and {len(near_earth_objects) - display_limit} more asteroids on this page.")
+                result.append(f"\n... and {len(near_earth_objects) - display_limit} more asteroids on this page.")
                 break
             result.append(f"ID: {asteroid.get('id', 'Unknown')}")
             result.append(f"Name: {asteroid.get('name', 'Unknown')}")
@@ -308,7 +308,7 @@ async def browse_asteroids() -> str:
             result.append("-" * 40)
             count += 1
         
-        return "n".join(result)
+        return "\n".join(result)
     except Exception as e:
         logger.error(f"Error processing Browse Asteroids data: {str(e)}")
         return f"Error processing asteroid data: {str(e)}"
@@ -325,10 +325,10 @@ def format_donki_results(data: list, title_prefix: str, id_key: str) -> str:
 
     for item in data:
         if count >= display_limit:
-            result.append(f"n... and {len(data) - display_limit} more entries.")
+            result.append(f"\n... and {len(data) - display_limit} more entries.")
             break
         
-        result.append(f"nID: {item.get(id_key, 'Unknown')}")
+        result.append(f"\nID: {item.get(id_key, 'Unknown')}")
         # Add common fields if they exist
         if 'startTime' in item: result.append(f"Start Time: {item.get('startTime', 'Unknown')}")
         if 'eventTime' in item: result.append(f"Event Time: {item.get('eventTime', 'Unknown')}")
@@ -362,7 +362,7 @@ def format_donki_results(data: list, title_prefix: str, id_key: str) -> str:
         result.append("-" * 40)
         count += 1
         
-    return "n".join(result)
+    return "\n".join(result)
 
 @mcp.tool()
 async def get_coronal_mass_ejection(start_date: str = None, end_date: str = None) -> str:
@@ -473,9 +473,9 @@ async def get_solar_flare(start_date: str = None, end_date: str = None) -> str:
         count = 0
         for flare in data:
             if count >= display_limit: 
-                result.append(f"n... and {len(data) - display_limit} more entries.")
+                result.append(f"\n... and {len(data) - display_limit} more entries.")
                 break
-            result.append(f"nID: {flare.get('flrID', 'Unknown')}")
+            result.append(f"\nID: {flare.get('flrID', 'Unknown')}")
             result.append(f"Begin Time: {flare.get('beginTime', 'Unknown')}")
             result.append(f"Peak Time: {flare.get('peakTime', 'Unknown')}")
             result.append(f"End Time: {flare.get('endTime', 'Unknown')}")
@@ -487,7 +487,7 @@ async def get_solar_flare(start_date: str = None, end_date: str = None) -> str:
                 result.append("    " + ", ".join([le.get('activityID', 'N/A') for le in linked_events[:5]]))
             result.append("-" * 40)
             count += 1
-        return "n".join(result)
+        return "\n".join(result)
     except Exception as e:
         logger.error(f"Error processing FLR data: {str(e)}")
         return f"Error processing solar flare data: {str(e)}"
@@ -671,9 +671,9 @@ async def get_wsa_enlil_simulation(start_date: str = None, end_date: str = None)
         count = 0
         for sim in data:
             if count >= display_limit: 
-                result.append(f"n... and {len(data) - display_limit} more simulations.")
+                result.append(f"\n... and {len(data) - display_limit} more simulations.")
                 break
-            result.append(f"nSimulation ID: {sim.get('simulationID', 'Unknown')}")
+            result.append(f"\nSimulation ID: {sim.get('simulationID', 'Unknown')}")
             result.append(f"Model Completion Time: {sim.get('modelCompletionTime', 'Unknown')}")
             # Add more fields as needed, e.g., impactList
             impacts = sim.get('impactList', [])
@@ -683,7 +683,7 @@ async def get_wsa_enlil_simulation(start_date: str = None, end_date: str = None)
                     result.append(f"    - Location: {impact.get('location', 'N/A')}, Arrival: {impact.get('arrivalTime', 'N/A')}")
             result.append("-" * 40)
             count += 1
-        return "n".join(result)
+        return "\n".join(result)
     except Exception as e:
         logger.error(f"Error processing WSA+Enlil simulation data: {str(e)}")
         return f"Error processing WSA+Enlil simulation data: {str(e)}"
@@ -728,9 +728,9 @@ async def get_notifications(start_date: str = None, end_date: str = None, notifi
         count = 0
         for notification in data:
             if count >= display_limit: 
-                result.append(f"n... and {len(data) - display_limit} more notifications.")
+                result.append(f"\n... and {len(data) - display_limit} more notifications.")
                 break
-            result.append(f"nID: {notification.get('messageID', 'Unknown')}")
+            result.append(f"\nID: {notification.get('messageID', 'Unknown')}")
             result.append(f"Type: {notification.get('messageType', 'Unknown')}")
             result.append(f"Issue Time: {notification.get('messageIssueTime', 'Unknown')}")
             result.append(f"Header: {notification.get('messageHeader', 'N/A')}")
@@ -739,7 +739,7 @@ async def get_notifications(start_date: str = None, end_date: str = None, notifi
             result.append(f"Body: {body[:200]}{'...' if len(body) > 200 else ''}") 
             result.append("-" * 40)
             count += 1
-        return "n".join(result)
+        return "\n".join(result)
     except Exception as e:
         logger.error(f"Error processing Notifications data: {str(e)}")
         return f"Error processing notifications: {str(e)}"
@@ -802,7 +802,7 @@ async def get_earth_imagery(lat: float, lon: float, date: str = None, dim: float
         else:
             result.append("Cloud score: Not available")
 
-        return "n".join(result)
+        return "\n".join(result)
     except Exception as e:
         logger.error(f"Error processing Earth Imagery JSON data: {str(e)}")
         return f"Error processing Earth imagery data: {str(e)}"
@@ -870,7 +870,7 @@ async def get_earth_assets(lat: float, lon: float, date: str, dim: float = 0.025
             # The API doesn't seem to return a direct URL here anymore based on docs
         ]
         
-        return "n".join(result)
+        return "\n".join(result)
     except Exception as e:
         logger.error(f"Error processing Earth Assets data: {str(e)}")
         return f"Error processing asset data: {str(e)}"
@@ -918,7 +918,7 @@ async def get_epic_imagery(collection: str = "natural") -> str:
         
         for image_meta in data:
             if count >= display_limit:
-                result.append(f"n... and {len(data) - display_limit} more images.")
+                result.append(f"\n... and {len(data) - display_limit} more images.")
                 break
 
             image_date_time = image_meta.get('date', 'Unknown')
@@ -941,7 +941,7 @@ async def get_epic_imagery(collection: str = "natural") -> str:
             else:
                 image_url_with_key = "URL not available"
 
-            result.append(f"nIdentifier: {image_identifier}")
+            result.append(f"\nIdentifier: {image_identifier}")
             result.append(f"Date/Time: {image_date_time}")
             result.append(f"Caption: {image_meta.get('caption', 'No caption')}")
             result.append(f"Image Name: {image_name}")
@@ -955,7 +955,7 @@ async def get_epic_imagery(collection: str = "natural") -> str:
             result.append("-" * 40)
             count += 1
             
-        return "n".join(result)
+        return "\n".join(result)
     except Exception as e:
         logger.error(f"Error processing EPIC image data: {str(e)}")
         return f"Error processing EPIC image data: {str(e)}"
@@ -1002,7 +1002,7 @@ async def get_epic_imagery_by_date(date: str, collection: str = "natural") -> st
         
         for image_meta in data:
             if count >= display_limit:
-                result.append(f"n... and {len(data) - display_limit} more images.")
+                result.append(f"\n... and {len(data) - display_limit} more images.")
                 break
 
             image_date_time = image_meta.get('date', 'Unknown')
@@ -1025,7 +1025,7 @@ async def get_epic_imagery_by_date(date: str, collection: str = "natural") -> st
             else:
                 image_url_with_key = "URL not available"
 
-            result.append(f"nIdentifier: {image_identifier}")
+            result.append(f"\nIdentifier: {image_identifier}")
             result.append(f"Date/Time: {image_date_time}")
             result.append(f"Caption: {image_meta.get('caption', 'No caption')}")
             result.append(f"Image Name: {image_name}")
@@ -1039,7 +1039,7 @@ async def get_epic_imagery_by_date(date: str, collection: str = "natural") -> st
             result.append("-" * 40)
             count += 1
             
-        return "n".join(result)
+        return "\n".join(result)
     except Exception as e:
         logger.error(f"Error processing EPIC image data: {str(e)}")
         return f"Error processing EPIC image data: {str(e)}"
@@ -1086,7 +1086,7 @@ async def get_epic_dates(collection: str = "natural") -> str:
         for i in range(0, len(unique_dates), 10):
             result.append(", ".join(unique_dates[i:i+10]))
         
-        return "n".join(result)
+        return "\n".join(result)
     except Exception as e:
         logger.error(f"Error processing available dates for EPIC images: {str(e)}")
         return f"Error processing available dates for EPIC images: {str(e)}"
@@ -1177,14 +1177,14 @@ async def get_exoplanet_data(query: str = None, table: str = "exoplanets", forma
                         fields_shown += 1
                 
                 if entry_details:
-                    result.append("n" + "n".join(entry_details))
+                    result.append("\n" + "\n".join(entry_details))
                     result.append("-" * 40)
                 else:
                     # Handle case where entry might be empty or only has nulls
-                    result.append(f"nEntry found, but no displayable data (ID might be {entry.get('id', 'N/A')}).")
+                    result.append(f"\nEntry found, but no displayable data (ID might be {entry.get('id', 'N/A')}).")
                     result.append("-" * 40)
 
-            return "n".join(result)
+            return "\n".join(result)
         
         except httpx.HTTPStatusError as http_err:
             logger.error(f"Exoplanet API HTTP error: {http_err} - {http_err.response.status_code}")
@@ -1268,10 +1268,10 @@ async def get_mars_rover_photos(rover_name: str, sol: int = None, earth_date: st
         
         for photo in photos:
             if count >= display_limit:
-                result.append(f"n... and {len(photos) - display_limit} more photos on this page.")
+                result.append(f"\n... and {len(photos) - display_limit} more photos on this page.")
                 break
                 
-            result.append(f"nPhoto ID: {photo.get('id', 'Unknown')}")
+            result.append(f"\nPhoto ID: {photo.get('id', 'Unknown')}")
             result.append(f"Sol: {photo.get('sol', 'Unknown')}")
             result.append(f"Earth Date: {photo.get('earth_date', 'Unknown')}")
             result.append(f"Camera: {photo.get('camera', {}).get('name', 'Unknown')} ({photo.get('camera', {}).get('full_name', 'N/A')})")
@@ -1280,7 +1280,7 @@ async def get_mars_rover_photos(rover_name: str, sol: int = None, earth_date: st
             result.append("-" * 40)
             count += 1
             
-        return "n".join(result)
+        return "\n".join(result)
     except Exception as e:
         logger.error(f"Error processing Mars Rover Photos data: {str(e)}")
         return f"Error processing Mars Rover Photos data: {str(e)}"
@@ -1324,7 +1324,8 @@ async def get_mars_rover_manifest(rover_name: str) -> str:
             f"Max Sol: {manifest.get('max_sol', 'Unknown')}",
             f"Max Earth Date: {manifest.get('max_date', 'Unknown')}",
             f"Total Photos: {manifest.get('total_photos', 'Unknown')}",
-            "nPhoto Summary per Sol (showing latest 5 sols with photos):"
+            "
+Photo Summary per Sol (showing latest 5 sols with photos):"
         ]
         
         photos_per_sol = manifest.get('photos', [])
@@ -1335,13 +1336,13 @@ async def get_mars_rover_manifest(rover_name: str) -> str:
         count = 0
         for sol_info in photos_per_sol_sorted:
             if count >= display_limit:
-                result.append(f"n... and {len(photos_per_sol) - display_limit} more sols with photos.")
+                result.append(f"\n... and {len(photos_per_sol) - display_limit} more sols with photos.")
                 break
             result.append(f"  Sol {sol_info.get('sol', 'N/A')}: {sol_info.get('total_photos', 0)} photos")
             result.append(f"    Cameras: {', '.join(sol_info.get('cameras', []))}")
             count += 1
             
-        return "n".join(result)
+        return "\n".join(result)
     except Exception as e:
         logger.error(f"Error processing Mars Rover Manifest data: {str(e)}")
         return f"Error processing Mars Rover Manifest data: {str(e)}"
