@@ -99,9 +99,9 @@ Once properly configured, you can ask things like:
 
 ## DISTRIBUTIONS
 
-### Smithery
+### LightNow
 
-[![smithery badge](https://smithery.ai/badge/@AnCode666/nasa-mcp)](https://smithery.ai/server/@AnCode666/nasa-mcp)
+[![LightNow capabilities](https://lightnow.ai/badge/io.github.AnCode666/nasa-mcp)](https://lightnow.ai/servers/io.github.AnCode666/nasa-mcp)
 
 ### MCP Review
 
